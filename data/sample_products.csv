@@ -1,0 +1,11 @@
+
+product_id,store,product_name,brand,model,price,rating,review_count,availability,product_url
+A101,Store A,Samsung Galaxy S25,Samsung,Galaxy S25,74999,4.5,2341,In Stock,http://store-a.local/products/galaxy-s25
+B201,Store B,Samsung Galaxy S25 5G,Samsung,Galaxy S25,72999,4.4,1800,In Stock,http://store-b.local/products/galaxy-s25
+C301,Store C,Samsung Galaxy S25 256GB,Samsung,Galaxy S25,76999,4.7,3456,Out of Stock,http://store-c.local/products/galaxy-s25
+A102,Store A,Apple iPhone 16,Apple,iPhone 16,69999,4.6,3100,In Stock,http://store-a.local/products/iphone-16
+B202,Store B,Apple iPhone 16 128GB,Apple,iPhone 16,67999,4.5,2100,In Stock,http://store-b.local/products/iphone-16
+C302,Store C,Apple iPhone 16,Apple,iPhone 16,71999,4.8,4100,In Stock,http://store-c.local/products/iphone-16
+A103,Store A,OnePlus 13,OnePlus,OnePlus 13,69999,4.4,1200,In Stock,http://store-a.local/products/oneplus-13
+B203,Store B,OnePlus 13 5G,OnePlus,OnePlus 13,67999,4.3,950,Out of Stock,http://store-b.local/products/oneplus-13
+C303,Store C,OnePlus 13,OnePlus,OnePlus 13,70999,4.6,1600,In Stock,http://store-c.local/products/oneplus-13
