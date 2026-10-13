@@ -7,18 +7,24 @@
     <title>SmartBuy | Product Comparison</title>
 </head>
 <body>
-    <h1>Welcome to SmartBuy!</h1>
-    <p>Compare products across stores and find the best value.</p>
+    <h1>SmartBuy</h1>
+    <h2>Find the best product for your money.</h2>
 
-    <form action="#" method="get">
+    <p>
+        Compare prices, ratings, reviews, and availability
+        across multiple stores.
+    </p>
+
+    <form action="/search" method="get">
         <label for="product">Search for a product:</label>
         <input
             type="text"
             id="product"
             name="product"
             placeholder="e.g. Samsung Galaxy S25"
+            required
         >
-        <button type="submit">Search</button>
+        <button type="submit">Compare Products</button>
     </form>
 </body>
 </html>
