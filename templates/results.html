@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBuy | Comparison Results</title>
+</head>
+<body>
+    <h1>SmartBuy Comparison Results</h1>
+
+    <form action="/search" method="get">
+        <input
+            type="text"
+            name="product"
+            value="{{ query }}"
+            placeholder="Search for a product"
+            required
+        >
+        <button type="submit">Search Again</button>
+    </form>
+
+    <p><a href="/">Back to Home</a></p>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    {% if products %}
+        <h2>Product Listings</h2>
+
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Store</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>Availability</th>
+                    <th>Buy Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.store }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>₹{{ "%.2f"|format(product.price) }}</td>
+                    <td>{{ product.rating }}</td>
+                    <td>{{ product.review_count }}</td>
+                    <td>{{ product.availability }}</td>
+                    <td>{{ product.buy_score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Recommendations</h2>
+
+        {% for model, choices in recommendations.items() %}
+            <h3>{{ model }}</h3>
+
+            <ul>
+                <li>
+                    <strong>Best Overall:</strong>
+                    {{ choices.best_overall.store }} —
+                    ₹{{ choices.best_overall.price }}
+                </li>
+                <li>
+                    <strong>Cheapest:</strong>
+                    {{ choices.cheapest.store }} —
+                    ₹{{ choices.cheapest.price }}
+                </li>
+                <li>
+                    <strong>Best Rated:</strong>
+                    {{ choices.best_rated.store }} —
+                    Rating {{ choices.best_rated.rating }}/5
+                </li>
+                <li>
+                    <strong>Best Value:</strong>
+                    {{ choices.best_value.store }} —
+                    Buy Score {{ choices.best_value.buy_score }}
+                </li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
