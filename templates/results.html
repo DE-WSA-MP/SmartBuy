@@ -1,89 +1,448 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartBuy | Comparison Results</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/results.css') }}">
 </head>
+
 <body>
-    <h1>SmartBuy Comparison Results</h1>
+    <header class="topbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">S</span>
+            SmartBuy
+        </a>
+        <span class="header-label">Product Intelligence</span>
+    </header>
 
-    <form action="/search" method="get">
-        <input
-            type="text"
-            name="product"
-            value="{{ query }}"
-            placeholder="Search for a product"
-            required
-        >
-        <button type="submit">Search Again</button>
-    </form>
+    <main class="container">
 
-    <p><a href="/">Back to Home</a></p>
+        <section class="page-heading">
+            <p class="eyebrow">SMARTER SHOPPING STARTS HERE</p>
+            <h1>Compare. Evaluate. <span>Choose better.</span></h1>
+            <p class="subtitle">
+                Compare prices, ratings and availability across stores
+                to find the right deal for you.
+            </p>
 
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
+            <form action="/search" method="get" class="search-form">
+                <span class="search-icon">&#9906;</span>
+                <input
+                    type="text"
+                    name="product"
+                    value="{{ query }}"
+                    placeholder="Search for a product or brand..."
+                    aria-label="Product search"
+                    required
+                >
+                <button type="submit">Search</button>
+            </form>
 
-    {% if products %}
-        <h2>Product Listings</h2>
+            <a href="/" class="back-link">&larr; Back to Home</a>
+        </section>
 
-        <table border="1" cellpadding="8">
-            <thead>
-                <tr>
-                    <th>Store</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Rating</th>
-                    <th>Reviews</th>
-                    <th>Availability</th>
-                    <th>Buy Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>{{ product.store }}</td>
-                    <td>{{ product.product_name }}</td>
-                    <td>₹{{ "%.2f"|format(product.price) }}</td>
-                    <td>{{ product.rating }}</td>
-                    <td>{{ product.review_count }}</td>
-                    <td>{{ product.availability }}</td>
-                    <td>{{ product.buy_score }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if message %}
+            <section class="message-card">
+                <div class="message-icon">&#9432;</div>
+                <div>
+                    <h2>Unable to find results</h2>
+                    <p>{{ message }}</p>
+                    <p class="muted">
+                        Try a product name, brand or model.
+                    </p>
+                </div>
+            </section>
+        {% endif %}
 
-        <h2>Recommendations</h2>
+        {% if products %}
+            
+            <section class="weights-section">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PERSONALIZE YOUR RESULTS</p>
+                        <h2>What matters most to you?</h2>
+                        <p class="muted">
+                            Adjust the importance of each criterion to recalculate
+                            your product recommendations.
+                        </p>
+                    </div>
+                </div>
 
-        {% for model, choices in recommendations.items() %}
-            <h3>{{ model }}</h3>
+                <form action="/search" method="post" class="weights-form">          
+                    <input type="hidden" name="source" value="{{ source }}">
+                    <input type="hidden" name="product" value="{{ query }}">
+                    <input type="hidden" name="apply_weights" value="1">
 
-            <ul>
-                <li>
-                    <strong>Best Overall:</strong>
-                    {{ choices.best_overall.store }} —
-                    ₹{{ choices.best_overall.price }}
-                </li>
-                <li>
-                    <strong>Cheapest:</strong>
-                    {{ choices.cheapest.store }} —
-                    ₹{{ choices.cheapest.price }}
-                </li>
-                <li>
-                    <strong>Best Rated:</strong>
-                    {{ choices.best_rated.store }} —
-                    Rating {{ choices.best_rated.rating }}/5
-                </li>
-                <li>
-                    <strong>Best Value:</strong>
-                    {{ choices.best_value.store }} —
-                    Buy Score {{ choices.best_value.buy_score }}
-                </li>
-            </ul>
-        {% endfor %}
-    {% endif %}
+                    <div class="weight-control">
+                        <div class="weight-label">
+                            <label for="price_weight">Price</label>
+                            <strong>
+                                <span id="price_value">
+                                    {{ ((weights.price * 100) if weights.price <= 1 else weights.price)|round|int }}
+                                </span>%
+                            </strong>
+                        </div>
+                        <input
+                            type="range"
+                            id="price_weight"
+                            name="price_weight"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="{{ ((weights.price * 100) if weights.price <= 1 else weights.price)|round|int }}"
+                        >
+                        <p>Higher weight means price matters more.</p>
+                    </div>
+
+                    <div class="weight-control">
+                        <div class="weight-label">
+                            <label for="rating_weight">Rating</label>
+                            <strong>
+                                <span id="rating_value">
+                                    {{ ((weights.rating * 100) if weights.rating <= 1 else weights.rating)|round|int }}
+                                </span>%
+                            </strong>
+                        </div>
+                        <input
+                            type="range"
+                            id="rating_weight"
+                            name="rating_weight"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="{{ ((weights.rating * 100) if weights.rating <= 1 else weights.rating)|round|int }}"
+                        >
+                        <p>Higher weight means ratings matter more.</p>
+                    </div>
+
+                    <div class="weight-control">
+                        <div class="weight-label">
+                            <label for="reviews_weight">Reviews</label>
+                            <strong>
+                                <span id="reviews_value">
+                                    {{ ((weights.reviews * 100) if weights.reviews <= 1 else weights.reviews)|round|int }}
+                                </span>%
+                            </strong>
+                        </div>
+                        <input
+                            type="range"
+                            id="reviews_weight"
+                            name="reviews_weight"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="{{ ((weights.reviews * 100) if weights.reviews <= 1 else weights.reviews)|round|int }}"
+                        >
+                        <p>Higher weight means review counts matter more.</p>
+                    </div>
+
+                    <div class="weight-control">
+                        <div class="weight-label">
+                            <label for="availability_weight">Availability</label>
+                            <strong>
+                                <span id="availability_value">
+                                    {{ ((weights.availability * 100) if weights.availability <= 1 else weights.availability)|round|int }}
+                                </span>%
+                            </strong>
+                        </div>
+                        <input
+                            type="range"
+                            id="availability_weight"
+                            name="availability_weight"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="{{ ((weights.availability * 100) if weights.availability <= 1 else weights.availability)|round|int }}"
+                        >
+                        <p>Higher weight means in-stock products are preferred.</p>
+                    </div>
+
+                    <div class="weights-footer">
+                        <p class="muted">
+                            Total selected: <strong id="total_weight">100</strong>%
+                            <br>
+                            Scores are normalized automatically, so the total does
+                            not have to equal 100%.
+                        </p>
+
+                        <div class="weight-buttons">
+                            <button type="button" id="reset_weights" class="reset-button">
+                                Reset Defaults
+                            </button>
+                            <button type="submit" class="apply-button">
+                                Apply Weights
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <section class="results-heading">
+                <div>
+                    <p class="eyebrow">SEARCH RESULTS</p>
+                    <h2>Results for "{{ query }}"</h2>
+                    <p class="muted">
+                        {{ products|length }} product listing(s) found
+                    </p>
+                </div>
+                <span class="results-tag">Comparison ready</span>
+            </section>
+
+            {% if recommendations %}
+                <section class="recommendations-section">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">SMARTBUY PICKS</p>
+                            <h2>Our recommendations</h2>
+                        </div>
+                        <p class="muted">
+                            Based on price, rating, reviews and availability
+                        </p>
+                    </div>
+
+                    {% for model, choices in recommendations.items() %}
+                        <div class="product-group">
+                            <h3 class="group-title">
+                                {{ choices.best_overall.product_name
+                                   if choices.best_overall.product_name
+                                   is defined else model }}
+                            </h3>
+
+                            <div class="recommendation-grid">
+
+                                <article class="recommendation-card featured">
+                                    <div class="card-top">
+                                        <span class="recommendation-icon">&#9733;</span>
+                                        <span class="card-label">Best Overall</span>
+                                    </div>
+                                    <h3>{{ choices.best_overall.store }}</h3>
+                                    <p class="recommendation-product">
+                                        {{ choices.best_overall.product_name }}
+                                    </p>
+                                    <p class="recommendation-price">
+                                        ₹{{ "%.2f"|format(choices.best_overall.price|float) }}
+                                    </p>
+                                    <div class="score-line">
+                                        <span>Buy Score</span>
+                                        <strong>
+                                            {{ "%.2f"|format(choices.best_overall.buy_score|float) }}/100
+                                        </strong>
+                                    </div>
+                                    <div class="explanation">
+                                        <p class="explanation-title">Why this result?</p>
+
+                                        <ul>
+                                            {% for reason in choices.best_overall.explanation.reasons %}
+                                                <li>{{ reason }}</li>
+                                            {% endfor %}
+                                        </ul>
+
+                                        <details>
+                                            <summary>Score breakdown</summary>
+                                            <ul class="contribution-list">
+                                                {% for criterion, contribution in
+                                                    choices.best_overall.explanation.contributions.items() %}
+                                                    <li>
+                                                        <span>{{ criterion|capitalize }}</span>
+                                                        <strong>{{ "%.2f"|format(contribution|float) }} points</strong>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </details>
+                                    </div>
+                                </article>
+
+                                <article class="recommendation-card">
+                                    <div class="card-top">
+                                        <span class="recommendation-icon">&#8377;</span>
+                                        <span class="card-label">Lowest Price</span>
+                                    </div>
+                                    <h3>{{ choices.cheapest.store }}</h3>
+                                    <p class="recommendation-product">
+                                        {{ choices.cheapest.product_name }}
+                                    </p>
+                                    <p class="recommendation-price">
+                                        ₹{{ "%.2f"|format(choices.cheapest.price|float) }}
+                                    </p>
+                                    <p class="card-detail">Cheapest available listing</p>
+                                </article>
+
+                                <article class="recommendation-card">
+                                    <div class="card-top">
+                                        <span class="recommendation-icon">&#9734;</span>
+                                        <span class="card-label">Best Rated</span>
+                                    </div>
+                                    <h3>{{ choices.best_rated.store }}</h3>
+                                    <p class="recommendation-product">
+                                        {{ choices.best_rated.product_name }}
+                                    </p>
+                                    <p class="recommendation-price">
+                                        {{ "%.1f"|format(choices.best_rated.rating|float) }}
+                                        <span class="rating-stars">&#9733;</span>
+                                        <span class="rating-out-of">/ 5</span>
+                                    </p>
+                                    <p class="card-detail">
+                                        {{ choices.best_rated.review_count }}
+                                        customer reviews
+                                    </p>
+                                </article>
+
+                                <article class="recommendation-card">
+                                    <div class="card-top">
+                                        <span class="recommendation-icon">&#10003;</span>
+                                        <span class="card-label">Best Value</span>
+                                    </div>
+                                    <h3>{{ choices.best_value.store }}</h3>
+                                    <p class="recommendation-product">
+                                        {{ choices.best_value.product_name }}
+                                    </p>
+                                    <p class="recommendation-price">
+                                        ₹{{ "%.2f"|format(choices.best_value.price|float) }}
+                                    </p>
+                                    <div class="score-line">
+                                        <span>Buy Score</span>
+                                        <strong>
+                                            {{ "%.2f"|format(choices.best_value.buy_score|float) }}/100
+                                        </strong>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+
+            <section class="comparison-section">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">STORE-BY-STORE ANALYSIS</p>
+                        <h2>Compare product listings</h2>
+                    </div>
+                    <span class="table-count">
+                        {{ products|length }} listings
+                    </span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Store</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Reviews</th>
+                                <th>Availability</th>
+                                <th>Buy Score</th>
+                                <th>Product Link</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>
+                                        <span class="store-name">
+                                            {{ product.store }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="product-name">
+                                            {{ product.product_name }}
+                                        </span>
+                                        <span class="product-model">
+                                            {{ product.brand }} {{ product.model }}
+                                        </span>
+                                    </td>
+
+                                    <td class="price-cell">
+                                        ₹{{ "%.2f"|format(product.price|float) }}
+                                    </td>
+
+                                    <td>
+                                        <span class="rating-value">
+                                            &#9733;
+                                            {{ "%.1f"|format(product.rating|float) }}
+                                        </span>
+                                        <span class="rating-out-of">/ 5</span>
+                                    </td>
+
+                                    <td>
+                                        {{ product.review_count }}
+                                    </td>
+
+                                    <td>
+                                        {% if product.availability|string|lower in
+                                              ['in stock', 'available'] %}
+                                            <span class="availability in-stock">
+                                                In Stock
+                                            </span>
+                                        {% else %}
+                                            <span class="availability out-stock">
+                                                Out of Stock
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="score-cell">
+                                            <div class="score-track">
+                                                <div
+                                                    class="score-fill"
+                                                    data-score="{{ product.buy_score }}"
+                                                ></div>
+                                            </div>
+                                            <strong>
+                                                {{ "%.2f"|format(product.buy_score|float) }}
+                                            </strong>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        {% if product.product_url %}
+                                            <a class="product-link"
+                                               href="{{ product.product_url }}"
+                                               target="_blank"
+                                               rel="noopener noreferrer">
+                                                View product &rarr;
+                                            </a>
+                                        {% else %}
+                                            <span class="muted">Unavailable</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="table-note">
+                    Buy Scores are calculated using SmartBuy's weighted scoring
+                    system. Higher scores indicate a stronger overall result
+                    according to the configured criteria.
+                </p>
+            </section>
+
+        {% elif not message %}
+            <section class="message-card">
+                <div class="message-icon">&#9432;</div>
+                <div>
+                    <h2>No listings to display</h2>
+                    <p>Enter a product name above to compare available listings.</p>
+                </div>
+            </section>
+        {% endif %}
+
+        <footer class="footer">
+            <p>SmartBuy &copy; 2026</p>
+            <p>Compare smarter. Shop confidently.</p>
+        </footer>
+
+    </main>
+    <script src="{{ url_for('static', filename='js/weights.js') }}"></script>
 </body>
 </html>

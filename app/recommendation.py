@@ -158,3 +158,89 @@ def generate_recommendations(scored_products):
         }
 
     return recommendations
+
+def explain_recommendation(product, group_products, weights=None):
+    """
+    Explain a product's Buy Score using its actual score components.
+    """
+
+    weights = DEFAULT_WEIGHTS.copy() if weights is None else weights.copy()
+    total_weight = sum(weights.values())
+
+    if total_weight <= 0:
+        raise ValueError("At least one weight must be greater than zero.")
+
+    normalized_weights = {
+        key: value / total_weight
+        for key, value in weights.items()
+    }
+
+    explanations = []
+
+    # Price comparison within the matched product group.
+    prices = pd.to_numeric(group_products["price"], errors="coerce")
+    price = float(product["price"])
+    min_price = prices.min()
+    max_price = prices.max()
+
+    if pd.notna(min_price) and pd.notna(max_price):
+        if price == min_price and price == max_price:
+            explanations.append("All compared listings have the same price.")
+        elif price == min_price:
+            explanations.append("Lowest price among the compared listings.")
+        elif price == max_price:
+            explanations.append("Highest price among the compared listings.")
+        else:
+            explanations.append("Price falls between the cheapest and most expensive listings.")
+
+    # Rating.
+    rating = pd.to_numeric(
+        pd.Series([product.get("rating")]), errors="coerce"
+    ).iloc[0]
+
+    if pd.notna(rating):
+        explanations.append(f"Customer rating: {rating:.1f}/5.")
+
+    # Review count.
+    review_count = pd.to_numeric(
+        pd.Series([product.get("review_count")]), errors="coerce"
+    ).iloc[0]
+
+    if pd.notna(review_count):
+        explanations.append(f"Based on {int(review_count):,} customer reviews.")
+
+    # Availability.
+    availability = str(product.get("availability", "")).strip().casefold()
+
+    if availability in ("in stock", "available"):
+        explanations.append("Currently in stock.")
+    else:
+        explanations.append("Currently out of stock.")
+
+    # Show the contribution of each criterion to the Buy Score.
+    contributions = {}
+
+    for criterion in ("price", "rating", "reviews", "availability"):
+        score_column = {
+            "price": "price_score",
+            "rating": "rating_score",
+            "reviews": "review_score",
+            "availability": "availability_score",
+        }[criterion]
+
+        score = pd.to_numeric(
+            pd.Series([product.get(score_column)]), errors="coerce"
+        ).iloc[0]
+
+        if pd.isna(score):
+            score = 0.0
+
+        contributions[criterion] = round(
+            100 * normalized_weights[criterion] * float(score), 2
+        )
+
+    return {
+        "reasons": explanations,
+        "contributions": contributions,
+        "buy_score": float(product["buy_score"]),
+    }
