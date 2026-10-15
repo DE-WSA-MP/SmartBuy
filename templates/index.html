@@ -4,27 +4,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartBuy | Product Comparison</title>
+    <title>SmartBuy | Shop Smarter</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/home.css') }}"
+    >
 </head>
+
 <body>
-    <h1>SmartBuy</h1>
-    <h2>Find the best product for your money.</h2>
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('main.home') }}">
+            <span class="brand-icon">✓</span>
+            <span>Smart<span class="brand-blue">Buy</span></span>
+        </a>
 
-    <p>
-        Compare prices, ratings, reviews, and availability
-        across multiple stores.
-    </p>
+        <nav class="nav-links">
+            <a href="#how-it-works">How it works</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a class="nav-button" href="#search-section">Compare products</a>
+        </nav>
+    </header>
 
-    <form action="/search" method="get">
-        <label for="product">Search for a product:</label>
-        <input
-            type="text"
-            id="product"
-            name="product"
-            placeholder="e.g. Samsung Galaxy S25"
-            required
-        >
-        <button type="submit">Compare Products</button>
-    </form>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="eyebrow">SMARTER SHOPPING STARTS HERE</span>
+
+                <h1>
+                    Find the <span>best product</span> for your money.
+                </h1>
+
+                <p class="hero-description">
+                    Compare prices, ratings, reviews, and availability
+                    across multiple stores — all in one place.
+                </p>
+
+                <section class="search-card" id="search-section">
+                    <form
+                        action="{{ url_for('main.search') }}"
+                        method="POST"
+                        class="search-form"
+                    >
+                        <label for="product">Search for a product</label>
+
+                        <div class="search-row">
+                            <div class="search-input-wrap">
+                                <span class="search-icon">⌕</span>
+                                <input
+                                    type="text"
+                                    id="product"
+                                    name="product"
+                                    placeholder="Search phones, laptops, headphones..."
+                                    required
+                                >
+                            </div>
+
+                            <button type="submit" class="search-button">
+                                <span>⌕</span> Search
+                            </button>
+                        </div>
+
+                        <label for="source" class="source-label">
+                            Data source
+                        </label>
+
+                        <div class="select-wrap">
+                            <span class="database-icon">▤</span>
+                            <select id="source" name="source">
+                                <option value="sample" selected>
+                                    Sample Data
+                                </option>
+                                <option value="scrape">
+                                    Live Store Scraping
+                                </option>
+                            </select>
+                            <span class="select-arrow">⌄</span>
+                        </div>
+
+                        <p class="source-note">
+                            Sample data is ready to use. Live scraping works
+                            when store scrapers are registered and available.
+                        </p>
+                    </form>
+                </section>
+            </div>
+
+            <div class="hero-visual" aria-label="Illustration of product comparisons">
+                <div class="circle circle-one"></div>
+                <div class="circle circle-two"></div>
+
+                <div class="annotation annotation-left">
+                    Compare across<br>multiple stores ↘
+                </div>
+
+                <div class="annotation annotation-right">
+                    Find your<br>best deal ↙
+                </div>
+
+                <div class="comparison-preview">
+                    <div class="preview-heading">
+                        <span>Product comparison</span>
+                        <span class="preview-pill">DEMO</span>
+                    </div>
+
+                    <article class="product-preview featured-product">
+                        <div class="product-symbol phone-blue">▯</div>
+
+                        <div class="product-info">
+                            <h3>Samsung Galaxy S25</h3>
+                            <span class="store-tag">Store A</span>
+                            <p><span class="star">★</span> 4.5 <span class="muted">(2,341 reviews)</span></p>
+                            <span class="stock-tag">In Stock</span>
+                        </div>
+
+                        <div class="product-price">
+                            <strong>₹72,999</strong>
+                            <span class="score-circle">92</span>
+                            <small>Buy Score</small>
+                        </div>
+                    </article>
+
+                    <article class="product-preview">
+                        <div class="product-symbol phone-purple">▯</div>
+
+                        <div class="product-info">
+                            <h3>iPhone 16</h3>
+                            <span class="store-tag purple-tag">Store B</span>
+                            <p><span class="star">★</span> 4.4 <span class="muted">(1,892 reviews)</span></p>
+                            <span class="stock-tag">In Stock</span>
+                        </div>
+
+                        <div class="product-price">
+                            <strong>₹67,999</strong>
+                            <span class="score-circle score-two">89</span>
+                            <small>Buy Score</small>
+                        </div>
+                    </article>
+
+                    <article class="product-preview">
+                        <div class="product-symbol phone-green">▯</div>
+
+                        <div class="product-info">
+                            <h3>OnePlus 12</h3>
+                            <span class="store-tag orange-tag">Store C</span>
+                            <p><span class="star">★</span> 4.3 <span class="muted">(1,245 reviews)</span></p>
+                            <span class="stock-tag low-stock">Limited stock</span>
+                        </div>
+
+                        <div class="product-price">
+                            <strong>₹67,999</strong>
+                            <span class="score-circle score-three">86</span>
+                            <small>Buy Score</small>
+                        </div>
+                    </article>
+
+                    <p class="demo-note">
+                        Illustrative preview · Not live product data
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <article class="feature-card">
+                <div class="feature-icon price-icon">₹</div>
+                <div>
+                    <h2>Compare prices</h2>
+                    <p>
+                        See prices from multiple stores and find
+                        the best deal.
+                    </p>
+                </div>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon rating-icon">☆</div>
+                <div>
+                    <h2>Trust ratings & reviews</h2>
+                    <p>
+                        Make informed decisions using customer
+                        ratings and review counts.
+                    </p>
+                </div>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon score-icon">↗</div>
+                <div>
+                    <h2>Find your best match</h2>
+                    <p>
+                        Use our Buy Score to compare products
+                        across multiple criteria.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <section class="how-section" id="how-it-works">
+            <span class="eyebrow">SIMPLE AND SMART</span>
+            <h2>Better decisions in three steps</h2>
+
+            <div class="steps">
+                <article class="step-card">
+                    <span class="step-number">01</span>
+                    <h3>Search</h3>
+                    <p>Enter the product you want to compare.</p>
+                </article>
+
+                <article class="step-card">
+                    <span class="step-number">02</span>
+                    <h3>Compare</h3>
+                    <p>Review prices, ratings, reviews, and availability.</p>
+                </article>
+
+                <article class="step-card">
+                    <span class="step-number">03</span>
+                    <h3>Choose smarter</h3>
+                    <p>Use recommendations and Buy Scores to guide your choice.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <h2>Shopping decisions, made easier.</h2>
+            <p>
+                SmartBuy brings product information together so you can
+                compare options and make a more informed purchase decision.
+            </p>
+            <a href="#search-section" class="bottom-cta">
+                Start comparing products →
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <a class="brand footer-brand" href="{{ url_for('main.home') }}">
+            <span class="brand-icon">✓</span>
+            <span>Smart<span class="brand-blue">Buy</span></span>
+        </a>
+        <p>Compare smarter. Choose better.</p>
+    </footer>
 </body>
 </html>
