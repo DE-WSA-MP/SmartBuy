@@ -1,0 +1,17 @@
+test_case_id,store_id,listing_id,field_name,scenario,expected_behavior,test_area
+EC001,S01,S01-L001,rating,Missing rating,Keep rating null; do not assign zero.,Normalization
+EC002,S02,S02-L007,review_count,Abbreviated count such as 1.2K reviews,Parse numeric count as 1200; preserve raw text.,Normalization
+EC003,S03,S03-L001,price,MRP and sale price both present,Use sale price for comparison; preserve MRP separately.,Normalization
+EC004,S04,S04-L001,availability,Only 2 Left,Map to LOW_STOCK and preserve quantity if available.,Availability
+EC005,S05,S05-L001,rating,87/100 with explicit scale,Normalize to 4.35/5 if defined as a linear average rating.,Normalization
+EC006,S06,S06-L001,availability,Pre-order,Map to PREORDER; do not map to IN_STOCK.,Availability
+EC007,S07,S07-L001,availability,Dispatch in 2–3 Days,Preserve dispatch estimate; map availability only according to documented policy.,Availability
+EC008,S08,S08-L001,availability,Backorder,Map to BACKORDER; keep distinct from OUT_OF_STOCK.,Availability
+EC009,S09,S09-L001,availability,Stock quantity not shown,"If no reliable status is visible, map to UNKNOWN.",Availability
+EC010,S10,S10-L001,review_count,Review count absent,Keep null; do not substitute rating count.,Normalization
+EC011,S03,S03-L002,rating,Customer satisfaction percentage,Do not treat as an average star rating without documented semantics.,Semantic comparability
+EC012,S04,S04-L002,title,Similar title but different storage variant,Do not merge variants when identity attributes conflict.,Matching
+EC013,S07,S07-L002,title,Same model family with different configuration,Use configuration attributes to prevent false merge.,Matching
+EC014,S05,S05-L003,rendering,Listing absent from initial HTML but appears after JS,HTTP-only extraction should detect missing rendered content; browser test should recover it.,Rendering
+EC015,S08,S08-L004,price,Optional offer missing,Use standard selling price if present; do not invent a discount.,Normalization
+EC016,S10,S10-L005,availability,Product discontinued,"Map to DISCONTINUED, not generic out of stock.",Availability

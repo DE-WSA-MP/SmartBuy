@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: smartbuy-dummy-stores
+    runtime: python
+    plan: free
+    branch: sravas
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: gunicorn render_app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 60
+    healthCheckPath: /
+    autoDeploy: true

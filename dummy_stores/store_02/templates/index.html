@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fern & Form | Everyday technology, considered.</title>
+  <meta name="description" content="A synthetic storefront catalogue for SmartBuy testing.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/store.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <a class="wordmark" href="{{ url_for('index') }}"><span class="mark">f.</span><span>fern<span class="amp">&</span>form</span></a>
+  <p class="header-note">Useful things, thoughtfully chosen.</p>
+  <form class="search" action="{{ url_for('index') }}" method="get"><label class="sr-only" for="q">Search catalogue</label><input id="q" name="q" value="{{ query }}" placeholder="Search the collection"><button type="submit" aria-label="Search">↗</button></form>
+</header>
+<section class="hero">
+  <div class="hero-copy"><p class="kicker">THE EVERYDAY EDIT&nbsp; / &nbsp;NO. 02</p><h1>Good design.<br><em>Better everyday.</em></h1><p class="hero-text">Considered tech and home essentials for the little rituals that make a day.</p><a class="hero-link" href="#collection">Explore the collection <span>↓</span></a></div>
+  <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="shape shape-one"></div><div class="shape shape-two"></div><div class="shape shape-three"></div><div class="art-label">OBJECTS FOR<br>DAILY LIVING</div></div>
+</section>
+<nav class="category-strip" aria-label="Shop by category"><span>EXPLORE BY</span><a class="{{ 'active' if not selected_category else '' }}" href="{{ url_for('index') }}">Everything <b>({{ products|length if not query and not selected_category else 18 }})</b></a>{% for c in categories %}<a class="{{ 'active' if selected_category == c else '' }}" href="{{ url_for('category', category=c) }}">{{ c }}</a>{% endfor %}</nav>
+<main id="collection">
+  <div class="section-intro"><div><p class="kicker">A SMALL, GOOD COLLECTION</p><h2>{% if query %}Search results{% elif selected_category %}{{ selected_category }}{% else %}Made for your everyday{% endif %}</h2></div><p class="result-note">{{ products|length }} pieces <span>·</span> Sample catalogue</p></div>
+  <div class="product-grid">
+  {% for p in products %}
+    <article class="product-card"><a class="product-visual tone-{{ loop.index0 % 6 }}" href="{{ url_for('product', slug=p['product_slug']) }}" aria-label="View {{ p['title'] }}"><span class="visual-category">{{ 'TECH' if p['category'] in ['Smartphones','Wearables'] else 'HOME' }}</span><span class="visual-symbol">{{ '◉' if p['category'] == 'Smartphones' else ('⌚' if p['category'] == 'Wearables' else '⌂') }}</span><span class="view-tag">VIEW OBJECT ↗</span></a>
+      <div class="product-copy"><p class="product-category">{{ p['category'] }}</p><h3><a href="{{ url_for('product', slug=p['product_slug']) }}">{{ p['title'] }}</a></h3><div class="price-line"><strong>{{ p['price_text'] }}</strong><span class="rating">★ {{ p['rating_text'] }}</span></div><p class="stock {{ 'stock-low' if p['availability_raw'] != 'In Stock' else '' }}">{{ p['availability_raw'] }}</p></div>
+    </article>
+  {% else %}<p class="empty">No pieces found. Try another search.</p>{% endfor %}
+  </div>
+  <p class="synthetic-note">All catalogue prices, ratings, review counts and availability are synthetic sample data for testing.</p>
+</main>
+<footer><a class="wordmark footer-mark" href="{{ url_for('index') }}"><span class="mark">f.</span><span>fern<span class="amp">&</span>form</span></a><span>Store 02 · Synthetic storefront for SmartBuy scraper testing</span><a href="{{ url_for('index') }}">Back to top ↑</a></footer>
+</body></html>
