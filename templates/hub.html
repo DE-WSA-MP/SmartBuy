@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="SmartBuy's independent demo storefront directory.">
+  <title>SmartBuy — Store Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='hub.css') }}">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="SmartBuy home">
+        <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+        <span>smart<span class="wordmark-light">buy</span><sup>LAB</sup></span>
+      </a>
+      <div class="topbar-right">
+        <span class="top-label">INDEPENDENT STOREFRONTS</span>
+        <span class="live-dot" aria-hidden="true"></span>
+        <span class="top-label">LOCAL DIRECTORY</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> THE DUMMY STORE COLLECTION / 2026</div>
+          <h1>Ten stores.<br><span>One smart</span> playground.</h1>
+          <p class="hero-description">A directory of independent storefront experiments built for SmartBuy. Different identities, shared product data, and one place to test them all.</p>
+          <a class="hero-cta" href="#store-directory">Explore the stores <span aria-hidden="true">↘</span></a>
+        </div>
+        <div class="hero-art" aria-label="Ten storefronts represented as a stack of colorful cards">
+          <div class="art-note note-top">MULTI-STORE SYSTEM <span>↗</span></div>
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="art-card card-back"><span>GOODFORM</span><b>09</b></div>
+          <div class="art-card card-mid"><span>FIELDWORK</span><b>07</b></div>
+          <div class="art-card card-front"><div class="front-top"><span>SMARTBUY / STORES</span><span>001—010</span></div><div class="front-glyph">S<span>↗</span></div><div class="front-bottom"><strong>BUILT TO<br>BE EXPLORED.</strong><i>10 / 10</i></div></div>
+          <div class="art-note note-bottom"><span class="mini-dot"></span> TEN INDEPENDENT EXPERIENCES</div>
+        </div>
+        <div class="hero-index">SB—LAB <span>001 / 010</span></div>
+      </section>
+
+      <section class="stats" aria-label="Directory statistics">
+        <div class="stat"><span class="stat-value">{{ "%02d"|format(ready_count) }}<small>/10</small></span><span class="stat-label">STORES READY</span></div>
+        <div class="stat"><span class="stat-value">180</span><span class="stat-label">PLANNED LISTINGS</span></div>
+        <div class="stat"><span class="stat-value">03</span><span class="stat-label">JS-DRIVEN STORES</span></div>
+        <div class="stat stat-note"><span class="stat-label">A SANDBOX, NOT THE MAIN SHOP</span><span class="stat-note-text">Every storefront is independently mounted.</span></div>
+      </section>
+
+      <section class="directory-section" id="store-directory">
+        <div class="section-heading">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span> THE DIRECTORY</div><h2>Pick a storefront.</h2></div>
+          <div class="section-tools">
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="store-search" type="search" placeholder="Find a store..." aria-label="Search stores"><kbd>/</kbd></label>
+            <span class="result-count" id="result-count">10 STORES</span>
+          </div>
+        </div>
+        <div class="filter-row" role="group" aria-label="Filter storefronts">
+          <button class="filter-button active" data-filter="all">All stores <span>{{ "%02d"|format(ready_count) }}</span></button>
+          <button class="filter-button" data-filter="ready">Ready to explore</button>
+          <button class="filter-button" data-filter="missing">Not installed</button>
+        </div>
+
+        <div class="store-grid" id="store-grid">
+          {% for store in stores %}
+          <article class="store-card theme-{{ store.style }}" data-name="{{ store.name|lower }}" data-categories="{{ store.categories|lower }}" data-status="{{ 'ready' if store.exists else 'missing' }}">
+            <div class="card-visual">
+              <div class="visual-top"><span class="store-number">STORE / {{ store.number }}</span><span class="status-pill {{ 'is-ready' if store.exists else 'is-missing' }}"><span></span>{{ store.status }}</span></div>
+              <div class="visual-motif motif-{{ store.style }}" aria-hidden="true">
+                {% if store.style == 'northstar' %}<div class="star-shape">✳</div><div class="motif-word">NORTH<br>STAR.</div>
+                {% elif store.style == 'fern' %}<div class="fern-circle"></div><div class="motif-word">fern<br>& form</div>
+                {% elif store.style == 'signal' %}<div class="signal-bars"><i></i><i></i><i></i><i></i><i></i></div><div class="motif-word">SIGNAL<span>_</span></div>
+                {% elif store.style == 'homegrid' %}<div class="home-grid-shape"><i></i><i></i><i></i><i></i></div><div class="motif-word">home<br>grid.</div>
+                {% elif store.style == 'orbit' %}<div class="orbit-shape"></div><div class="motif-word">orbit<br>goods</div>
+                {% elif store.style == 'store6' %}<div class="six-shape">06</div><div class="motif-word">STORE<br>NO. SIX</div>
+                {% elif store.style == 'fieldwork' %}<div class="field-sun"></div><div class="motif-word">FIELD<br>WORK.</div>
+                {% elif store.style == 'mono' %}<div class="mono-shape"><i></i><i></i><i></i></div><div class="motif-word">MONO<br>CHROME</div>
+                {% elif store.style == 'goodform' %}<div class="goodform-shape">g.</div><div class="motif-word">GOOD<br>FORM</div>
+                {% else %}<div class="odd-shape"><i></i><i></i><i></i></div><div class="motif-word">ODD /<br>EVEN</div>{% endif %}
+              </div>
+              <div class="visual-bottom"><span>{{ store.categories }}</span><span>↗</span></div>
+            </div>
+            <div class="card-info">
+              <div class="card-title-row"><h3>{{ store.name }}</h3><span class="card-port">:{{ store.port }}</span></div>
+              <p>{{ store.tagline }}</p>
+              <div class="card-footer"><span class="card-count">18 LISTINGS <b>·</b> 3 CATEGORIES</span><a class="visit-link {{ 'disabled' if not store.exists else '' }}" href="{{ store.prefix }}/" {% if not store.exists %}aria-disabled="true" tabindex="-1"{% endif %}>{{ 'Visit store' if store.exists else 'Unavailable' }} <span aria-hidden="true">↗</span></a></div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+        <div class="empty-state" id="empty-state" hidden><span>⌕</span><strong>No stores match that search.</strong><p>Try a different name or filter.</p></div>
+      </section>
+
+      <section class="architecture">
+        <div class="architecture-copy"><div class="eyebrow"><span class="eyebrow-line"></span> UNDER THE HOOD</div><h2>One hub.<br><span>Ten separate apps.</span></h2><p>The directory routes each storefront through its own mount point, while every store keeps its own templates and static assets.</p></div>
+        <div class="route-list">
+          <div class="route-row"><span class="route-method">ROOT</span><code>/</code><span class="route-description">Store directory</span><span class="route-arrow">↗</span></div>
+          {% for store in stores %}
+          <div class="route-row"><span class="route-method">{{ store.number }}</span><code>{{ store.prefix }}/</code><span class="route-description">{{ store.name }}</span><span class="route-arrow">{{ '↗' if store.exists else '—' }}</span></div>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><a class="wordmark footer-brand" href="/"><span class="brand-mark"><span></span><span></span><span></span><span></span></span><span>smart<span class="wordmark-light">buy</span><sup>LAB</sup></span></a><span>BUILT FOR TESTING. READY FOR EXPLORATION.</span><span>SB / DIRECTORY / V1.0</span></footer>
+  </div>
+  <script src="{{ url_for('static', filename='hub.js') }}" defer></script>
+</body>
+</html>
