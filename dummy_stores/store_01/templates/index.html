@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Northstar Market | Product Catalogue</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/store.css') }}"
+    >
+</head>
+
+<body>
+    <header class="masthead">
+        <a class="brand" href="{{ url_for('index') }}">
+            NORTHSTAR <span>MARKET</span>
+        </a>
+
+        <form action="{{ url_for('search') }}" method="get">
+            <input
+                type="search"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search products, brands or categories"
+                aria-label="Search products"
+            >
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <nav class="category-nav" aria-label="Product categories">
+        <a href="{{ url_for('index') }}">All products</a>
+
+        {% for c in categories %}
+            <a href="{{ url_for('category', category=c) }}">
+                {{ c }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    <main>
+        <section class="intro">
+            <p class="eyebrow">THE NORTHSTAR EDIT</p>
+            <h1>Useful things. Clear choices.</h1>
+            <p>Explore our electronics and home essentials.</p>
+        </section>
+
+        <h2>
+            {% if query %}
+                Search results for “{{ query }}”
+            {% else %}
+                Featured products
+            {% endif %}
+        </h2>
+
+        <div class="product-grid">
+            {% for p in products %}
+                <article class="product-card">
+                    <div class="product-art">
+                        {{ p["category"][:1] }}
+                    </div>
+
+                    <div class="product-info">
+                        <p class="category">{{ p["category"] }}</p>
+
+                        <h3>
+                            <a href="{{ url_for('product', slug=p['product_slug']) }}">
+                                {{ p["title"] }}
+                            </a>
+                        </h3>
+
+                        <p class="price">{{ p["price_text"] }}</p>
+
+                        <p class="rating">
+                            ★ {{ p["rating_text"] }}
+                            <span>({{ p["review_count_text"] }})</span>
+                        </p>
+
+                        <p class="stock {{ 'unavailable' if 'Unavailable' in p['availability_raw'] or 'Out of Stock' in p['availability_raw'] else '' }}">
+                            {{ p["availability_raw"] }}
+                        </p>
+
+                        <a
+                            class="details"
+                            href="{{ url_for('product', slug=p['product_slug']) }}"
+                        >
+                            View details →
+                        </a>
+                    </div>
+                </article>
+            {% else %}
+                <p>No matching products found.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        Northstar Market · Local synthetic storefront for SmartBuy scraper testing
+    </footer>
+</body>
+</html>

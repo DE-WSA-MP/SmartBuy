@@ -1,0 +1,31 @@
+canonical_id,category,brand,canonical_model,variant,canonical_name,specifications_json,matching_notes
+CP001,Smartphones,Samsung,Galaxy S25,256GB storage / 12GB RAM,Samsung Galaxy S25 256GB,"{""storage"":""256GB"",""ram"":""12GB""}",Do not merge with other storage/RAM configurations.
+CP002,Smartphones,Apple,iPhone 16,128GB storage,Apple iPhone 16 128GB,"{""storage"":""128GB""}",Storage is part of identity.
+CP003,Smartphones,OnePlus,13,256GB storage / 12GB RAM,OnePlus 13 256GB,"{""storage"":""256GB"",""ram"":""12GB""}",Keep distinct from OnePlus 13R and other variants.
+CP004,Smartphones,Google,Pixel 9,128GB storage,Google Pixel 9 128GB,"{""storage"":""128GB""}",Keep distinct from Pixel 9 Pro.
+CP005,Smartphones,Nothing,Phone (3a),128GB storage,Nothing Phone (3a) 128GB,"{""storage"":""128GB""}",Keep distinct from Phone (3a) Pro.
+CP006,Smartphones,Motorola,Edge 50 Pro,256GB storage,Motorola Edge 50 Pro 256GB,"{""storage"":""256GB""}",Keep distinct from Edge 50 and Edge 50 Fusion.
+CP007,Laptops,Apple,MacBook Air 13 M4,16GB RAM / 256GB SSD,Apple MacBook Air 13 M4 16GB/256GB,"{""screen_size"":""13-inch"",""ram"":""16GB"",""storage"":""256GB SSD"",""chip"":""M4""}","Chip, screen size, RAM and storage are identity attributes."
+CP008,Laptops,Dell,Inspiron 14,16GB RAM / 512GB SSD,Dell Inspiron 14 16GB/512GB,"{""screen_size"":""14-inch"",""ram"":""16GB"",""storage"":""512GB SSD""}",Keep CPU generation and exact model family in listing attributes where available.
+CP009,Laptops,HP,Pavilion 15,16GB RAM / 512GB SSD,HP Pavilion 15 16GB/512GB,"{""screen_size"":""15-inch"",""ram"":""16GB"",""storage"":""512GB SSD""}",Keep distinct from Pavilion Plus and other sizes.
+CP010,Laptops,Lenovo,IdeaPad Slim 5,16GB RAM / 512GB SSD,Lenovo IdeaPad Slim 5 16GB/512GB,"{""ram"":""16GB"",""storage"":""512GB SSD""}",Exact generation/configuration should be preserved.
+CP011,Laptops,ASUS,Vivobook 15,16GB RAM / 512GB SSD,ASUS Vivobook 15 16GB/512GB,"{""screen_size"":""15-inch"",""ram"":""16GB"",""storage"":""512GB SSD""}",Keep distinct from Vivobook Go and other configurations.
+CP012,Laptops,Acer,Aspire 5,16GB RAM / 512GB SSD,Acer Aspire 5 16GB/512GB,"{""ram"":""16GB"",""storage"":""512GB SSD""}",Exact generation/configuration should be preserved.
+CP013,Audio,Sony,WH-1000XM5,Wireless over-ear headphones,Sony WH-1000XM5 Headphones,"{""type"":""over-ear headphones"",""wireless"":true}",Keep distinct from WH-1000XM4 and WH-1000XM6.
+CP014,Audio,Bose,QuietComfort,Wireless noise-cancelling headphones,Bose QuietComfort Headphones,"{""type"":""over-ear headphones"",""wireless"":true}",Do not merge with QuietComfort Ultra without explicit equivalence.
+CP015,Audio,Apple,AirPods 4,Wireless earbuds,Apple AirPods 4,"{""type"":""wireless earbuds""}",Keep distinct from AirPods 4 with Active Noise Cancellation.
+CP016,Audio,Samsung,Galaxy Buds3 Pro,Wireless earbuds,Samsung Galaxy Buds3 Pro,"{""type"":""wireless earbuds""}",Keep distinct from Galaxy Buds3.
+CP017,Audio,JBL,Flip 6,Portable Bluetooth speaker,JBL Flip 6 Speaker,"{""type"":""portable speaker"",""connectivity"":""Bluetooth""}",Keep distinct from Flip 5 and Flip 7.
+CP018,Audio,boAt,Airdopes 141,Wireless earbuds,boAt Airdopes 141,"{""type"":""wireless earbuds""}",Keep distinct from similarly named Airdopes models.
+CP019,Wearables,Apple,Watch Series 10 GPS,42mm case,Apple Watch Series 10 GPS 42mm,"{""case_size"":""42mm"",""connectivity"":""GPS""}",Case size and connectivity variant are identity attributes.
+CP020,Wearables,Samsung,Galaxy Watch7,44mm case,Samsung Galaxy Watch7 44mm,"{""case_size"":""44mm""}",Keep distinct from 40mm and LTE variants.
+CP021,Wearables,Google,Pixel Watch 3,45mm case,Google Pixel Watch 3 45mm,"{""case_size"":""45mm""}",Keep distinct from 41mm version.
+CP022,Wearables,Garmin,Forerunner 165,GPS running watch,Garmin Forerunner 165,"{""type"":""GPS running watch""}",Keep distinct from Forerunner 165 Music.
+CP023,Wearables,Fitbit,Charge 6,Fitness tracker,Fitbit Charge 6,"{""type"":""fitness tracker""}",Keep distinct from Charge 5.
+CP024,Wearables,Xiaomi,Smart Band 9,Fitness band,Xiaomi Smart Band 9,"{""type"":""fitness band""}",Keep distinct from Smart Band 8/9 Pro.
+CP025,Small home appliances,Philips,Airfryer NA231,Air fryer,Philips Airfryer NA231,"{""type"":""air fryer"",""model_code"":""NA231""}",Exact model code is identity attribute.
+CP026,Small home appliances,Instant,Vortex Plus,Air fryer,Instant Vortex Plus Air Fryer,"{""type"":""air fryer""}",Capacity and exact generation should be retained where available.
+CP027,Small home appliances,Prestige,Iris,Mixer grinder,Prestige Iris Mixer Grinder,"{""type"":""mixer grinder""}",Jar count and wattage may distinguish listing variants.
+CP028,Small home appliances,Bosch,TrueMixx Pro,Mixer grinder,Bosch TrueMixx Pro Mixer Grinder,"{""type"":""mixer grinder""}",Exact model code and wattage should be retained where available.
+CP029,Small home appliances,Xiaomi,Robot Vacuum S10,Robot vacuum,Xiaomi Robot Vacuum S10,"{""type"":""robot vacuum""}",Keep distinct from S10+ and other region-specific variants.
+CP030,Small home appliances,Eureka Forbes,Robo Vac N Mop,Robot vacuum and mop,Eureka Forbes Robo Vac N Mop,"{""type"":""robot vacuum and mop""}",Keep distinct from similarly named variants.
