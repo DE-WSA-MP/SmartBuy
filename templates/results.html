@@ -27,8 +27,9 @@
                 to find the right deal for you.
             </p>
 
-            <form action="/search" method="get" class="search-form">
+            <form action="{{ url_for('smartbuy_network_search') }}" method="post" class="search-form">
                 <span class="search-icon">&#9906;</span>
+                <input type="hidden" name="source" value="{{ source|default('stores') }}">
                 <input
                     type="text"
                     name="product"
@@ -70,8 +71,8 @@
                     </div>
                 </div>
 
-                <form action="/search" method="post" class="weights-form">          
-                    <input type="hidden" name="source" value="{{ source }}">
+                <form action="{{ url_for('smartbuy_network_search') }}" method="post" class="weights-form">          
+                    <input type="hidden" name="source" value="{{ source|default('stores') }}">
                     <input type="hidden" name="product" value="{{ query }}">
                     <input type="hidden" name="apply_weights" value="1">
 
@@ -376,15 +377,13 @@
                                     </td>
 
                                     <td>
-                                        {% if product.availability|string|lower in
-                                              ['in stock', 'available'] %}
-                                            <span class="availability in-stock">
-                                                In Stock
-                                            </span>
+                                        {% set status_text = product.availability|string|lower %}
+                                        {% if 'out of stock' in status_text or 'sold out' in status_text or 'unavailable' in status_text or 'discontinued' in status_text or 'not available' in status_text %}
+                                            <span class="availability out-stock">{{ product.availability }}</span>
+                                        {% elif 'in stock' in status_text or 'available' in status_text or 'limited' in status_text or 'only ' in status_text or 'ready to ship' in status_text or 'dispatch' in status_text %}
+                                            <span class="availability in-stock">{{ product.availability }}</span>
                                         {% else %}
-                                            <span class="availability out-stock">
-                                                Out of Stock
-                                            </span>
+                                            <span class="availability">{{ product.availability }}</span>
                                         {% endif %}
                                     </td>
 
