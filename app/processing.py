@@ -68,12 +68,18 @@ def clean_and_validate_products(df):
         )
 
     # 4. Standardize availability values.
+    
     availability_map = {
         "in stock": "In Stock",
         "out of stock": "Out of Stock",
         "available": "In Stock",
         "unavailable": "Out of Stock",
+        "sold out": "Out of Stock",
+        "pre-order": "Pre-order",
+        "preorder": "Pre-order",
+        "unknown": "Unknown",
     }
+
 
     df["availability"] = (
         df["availability"]
