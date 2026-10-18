@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartBuy | Shop Smarter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/home.css') }}"
     >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/store-directory.css') }}">
 </head>
 
 <body>
@@ -22,6 +26,7 @@
         <nav class="nav-links">
             <a href="#how-it-works">How it works</a>
             <a href="#features">Features</a>
+            <a href="#storefronts">Store network</a>
             <a href="#about">About</a>
             <a class="nav-button" href="#search-section">Compare products</a>
         </nav>
@@ -43,7 +48,7 @@
 
                 <section class="search-card" id="search-section">
                     <form
-                        action="{{ url_for('main.search') }}"
+                        action="{{ url_for('smartbuy_network_search') }}"
                         method="POST"
                         class="search-form"
                     >
@@ -73,19 +78,15 @@
                         <div class="select-wrap">
                             <span class="database-icon">▤</span>
                             <select id="source" name="source">
-                                <option value="sample" selected>
-                                    Sample Data
-                                </option>
-                                <option value="scrape">
-                                    Live Store Scraping
-                                </option>
+                                <option value="stores" selected>Dummy Store Network · 10 storefronts</option>
+                                <option value="sample">Sample Data</option>
                             </select>
                             <span class="select-arrow">⌄</span>
                         </div>
 
                         <p class="source-note">
-                            Sample data is ready to use. Live scraping works
-                            when store scrapers are registered and available.
+                            Search the product catalogues loaded by the ten mounted storefronts.
+                            Listings are synthetic test data. Choose Sample Data to use the fallback catalogue.
                         </p>
                     </form>
                 </section>
@@ -236,6 +237,81 @@
             <a href="#search-section" class="bottom-cta">
                 Start comparing products →
             </a>
+        </section>
+
+        <section class="storefront-directory" id="storefronts" aria-labelledby="storefronts-title">
+            <div class="sbd-header">
+                <div class="sbd-heading-copy">
+                    <p class="sbd-eyebrow"><span></span> THE SMARTBUY STOREFRONT NETWORK / 2026</p>
+                    <h2 id="storefronts-title">Ten storefronts.<br><em>One place to explore.</em></h2>
+                    <p class="sbd-intro">Every store has its own look, catalogue, and shopping experience. Open a storefront directly, or compare listings from the whole network using the search above.</p>
+                </div>
+                <div class="sbd-hero-art" aria-hidden="true">
+                    <div class="sbd-art-orbit sbd-orbit-a"></div>
+                    <div class="sbd-art-orbit sbd-orbit-b"></div>
+                    <div class="sbd-art-card sbd-art-card-back"><span>GOODFORM</span><b>09</b></div>
+                    <div class="sbd-art-card sbd-art-card-mid"><span>FIELDWORK</span><b>07</b></div>
+                    <div class="sbd-art-card sbd-art-card-front"><div class="sbd-art-top"><span>SMARTBUY / STORES</span><span>001—010</span></div><div class="sbd-art-glyph">S<span>↗</span></div><div class="sbd-art-bottom"><strong>BUILT TO<br>BE EXPLORED.</strong><i>10 / 10</i></div></div>
+                    <span class="sbd-art-note sbd-art-note-top">MULTI-STORE SYSTEM ↗</span>
+                    <span class="sbd-art-note sbd-art-note-bottom">● TEN DISTINCT EXPERIENCES</span>
+                </div>
+            </div>
+
+            <div class="sbd-statbar" aria-label="Store network summary">
+                <div><strong>10<small> / 10</small></strong><span>STOREFRONTS</span></div>
+                <div><strong>180</strong><span>PLANNED LISTINGS</span></div>
+                <div><strong>01</strong><span>LOCAL SERVER COMMAND</span></div>
+                <p>ONE SMARTBUY · TEN INDEPENDENT FLAVOURS</p>
+            </div>
+
+            <div class="sbd-directory-heading">
+                <div><p class="sbd-eyebrow"><span></span> THE DIRECTORY</p><h3>Pick a storefront.</h3></div>
+                <span class="sbd-count">10 STORES <b>↘</b></span>
+            </div>
+
+            <div class="sbd-grid">
+                <a class="sbd-card sbd-northstar" href="/store01/" aria-label="Visit Northstar Market, Store 01">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 01</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-star">✳</b><span>NORTH<br>STAR.</span></div><div class="sbd-card-cats">SMARTPHONES · LAPTOPS · AUDIO <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>Northstar Market</h4><span>:5001</span></div><p>Everyday tech, clearly chosen.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-fern" href="/store02/" aria-label="Visit Fern and Form, Store 02">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 02</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-fern-circle"></b><span>fern<br>&amp; form</span></div><div class="sbd-card-cats">SMARTPHONES · WEARABLES · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>Fern &amp; Form</h4><span>:5002</span></div><p>Considered essentials for daily life.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-signal" href="/store03/" aria-label="Visit Signal Supply, Store 03">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 03</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-bars"><i></i><i></i><i></i><i></i><i></i></b><span>SIGNAL<span class="sbd-blink">_</span></span></div><div class="sbd-card-cats">LAPTOPS · AUDIO · WEARABLES <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>Signal Supply</h4><span>:5003</span></div><p>High signal. Zero noise.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-homegrid" href="/store04/" aria-label="Visit HomeGrid, Store 04">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 04</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-home-grid"><i></i><i></i><i></i><i></i></b><span>home<br>grid.</span></div><div class="sbd-card-cats">SMARTPHONES · LAPTOPS · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>HomeGrid</h4><span>:5004</span></div><p>Make room for better routines.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-orbit" href="/store05/" aria-label="Visit Orbit Goods, Store 05">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 05</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-orbit-ring"></b><span>orbit<br>goods</span></div><div class="sbd-card-cats">AUDIO · WEARABLES · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>Orbit Goods</h4><span>:5005</span></div><p>Good things, in your orbit.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-six" href="/store06/" aria-label="Visit Store 06">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 06</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-six-shape">06</b><span>STORE<br>NO. SIX</span></div><div class="sbd-card-cats">SMARTPHONES · AUDIO · WEARABLES <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>Store 06</h4><span>:5006</span></div><p>Another angle on everyday technology.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-fieldwork" href="/store07/" aria-label="Visit Fieldwork, Store 07">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 07</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-field-sun"></b><span>FIELD<br>WORK.</span></div><div class="sbd-card-cats">LAPTOPS · WEARABLES · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>FIELDWORK</h4><span>:5007</span></div><p>Useful by design. Ready for real life.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-mono" href="/store08/" aria-label="Visit Monochrome, Store 08">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 08</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-mono-bars"><i></i><i></i><i></i></b><span>MONO<br>CHROME</span></div><div class="sbd-card-cats">SMARTPHONES · LAPTOPS · AUDIO <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>MONOCHROME</h4><span>:5008</span></div><p>Less noise. More product.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-goodform" href="/store09/" aria-label="Visit Goodform, Store 09">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 09</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-goodform-mark">g.</b><span>GOOD<br>FORM</span></div><div class="sbd-card-cats">LAPTOPS · AUDIO · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>GOODFORM</h4><span>:5009</span></div><p>Well-made choices for everyday use.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+                <a class="sbd-card sbd-oddeven" href="/store10/" aria-label="Visit Odd Even, Store 10">
+                    <div class="sbd-card-visual"><div class="sbd-card-meta"><span>STORE / 10</span><span class="sbd-status"><i></i> READY</span></div><div class="sbd-motif"><b class="sbd-odd-shapes"><i></i><i></i><i></i></b><span>ODD /<br>EVEN</span></div><div class="sbd-card-cats">SMARTPHONES · WEARABLES · HOME <b>↗</b></div></div>
+                    <div class="sbd-card-body"><div class="sbd-card-title"><h4>ODD / EVEN</h4><span>:5010</span></div><p>A different kind of product index.</p><div class="sbd-card-foot"><span>18 LISTINGS · 3 CATEGORIES</span><strong>VISIT STORE ↗</strong></div></div>
+                </a>
+            </div>
+            <div class="sbd-bottomline"><span>ONE HUB. TEN SEPARATE APPS.</span><span>STARTED WITH <code>python run.py</code></span><a href="#search-section">COMPARE A PRODUCT ↑</a></div>
         </section>
     </main>
 
