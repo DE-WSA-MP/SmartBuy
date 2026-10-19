@@ -336,16 +336,16 @@ application = DispatcherMiddleware(main_app, mounted_apps)
 # Keep the conventional WSGI variable name available; it must be the composite app.
 app = application
 
-if __name__ == "__main__":
-    print("\nSmartBuy is starting on one local server.")
-    print("Main website:   http://127.0.0.1:8000/")
-    print("Storefronts:    http://127.0.0.1:8000/store01/ through /store10/")
-    print("Stop the server with Ctrl+C.\n")
-    run_simple(
-        "127.0.0.1",
-        8000,
-        application,
-        use_reloader=True,
-        use_debugger=True,
-        threaded=True,
-    )
+# if __name__ == "__main__":
+#     print("\nSmartBuy is starting on one local server.")
+#     print("Main website:   http://127.0.0.1:8000/")
+#     print("Storefronts:    http://127.0.0.1:8000/store01/ through /store10/")
+#     print("Stop the server with Ctrl+C.\n")
+#     run_simple(
+#         "127.0.0.1",
+#         8000,
+#         application,
+#         use_reloader=True,
+#         use_debugger=True,
+#         threaded=True,
+#     )
